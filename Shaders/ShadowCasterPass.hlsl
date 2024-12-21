@@ -78,6 +78,10 @@ half4 ShadowPassFragment(Varyings input) : SV_TARGET
         LODFadeCrossFade(input.positionCS);
     #endif
 
+    float dither = SampleDither(_DitherFade, input.positionCS.xyz);
+    if(dither < 0.5)
+        discard;
+
     return 0;
 }
 

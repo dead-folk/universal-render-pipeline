@@ -8,6 +8,7 @@ CBUFFER_START(UnityPerMaterial)
     half4 _BaseColor;
     half _Cutoff;
     half _Surface;
+    half _DitherFade;
 CBUFFER_END
 
 #ifdef UNITY_DOTS_INSTANCING_ENABLED

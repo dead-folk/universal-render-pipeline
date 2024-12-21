@@ -50,6 +50,9 @@ Shader "Universal Render Pipeline/Particles/Unlit"
         [HideInInspector] _FlipbookMode("flipbook", Float) = 0
         [HideInInspector] _Mode("mode", Float) = 0
         [HideInInspector] _Color("color", Color) = (1,1,1,1)
+
+        // Custom
+        _DitherFade("Dither Fade", Range(0.0, 1.0)) = 0.0
     }
 
     HLSLINCLUDE

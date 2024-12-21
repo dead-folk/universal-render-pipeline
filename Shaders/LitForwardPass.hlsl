@@ -235,6 +235,10 @@ void LitPassFragment(
     color.rgb = MixFog(color.rgb, inputData.fogCoord);
     color.a = OutputAlpha(color.a, IsSurfaceTypeTransparent(_Surface));
 
+    float dither = SampleDither(_DitherFade, input.positionCS.xyz);
+    if(dither < 0.5)
+        discard;
+
     outColor = color;
 
 #ifdef _WRITE_RENDERING_LAYERS

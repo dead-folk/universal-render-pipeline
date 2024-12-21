@@ -48,6 +48,10 @@ half DepthOnlyFragment(Varyings input) : SV_TARGET
         LODFadeCrossFade(input.positionCS);
     #endif
 
+    float dither = SampleDither(_DitherFade, input.positionCS.xyz);
+    if(dither < 0.5)
+        discard;
+
     return input.positionCS.z;
 }
 #endif

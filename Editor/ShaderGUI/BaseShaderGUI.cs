@@ -306,6 +306,9 @@ namespace UnityEditor
             public static readonly GUIContent queueControl = EditorGUIUtility.TrTextContent("Queue Control",
                 "Controls whether render queue is automatically set based on material surface type, or explicitly set by the user.");
 
+            public static readonly GUIContent ditherFade = EditorGUIUtility.TrTextContent("Dither Fade",
+                "Transparency for Opaque objects using discard on a dither pattern.");
+
             /// <summary>
             /// The text and tooltip for the help reference GUI.
             /// </summary>
@@ -370,6 +373,8 @@ namespace UnityEditor
         /// The MaterialProperty for receive shadows.
         /// </summary>
         protected MaterialProperty receiveShadowsProp { get; set; }
+
+        protected MaterialProperty ditherFadeProp { get; set; }
 
 
         // Common Surface Input properties
@@ -456,6 +461,8 @@ namespace UnityEditor
 
             // ShaderGraph Lit, and Lit.shader
             receiveShadowsProp = FindProperty(Property.ReceiveShadows, properties, false);
+
+            ditherFadeProp = FindProperty(Property.DitherFade, properties, false);
 
             // The following are not mandatory for shadergraphs (it's up to the user to add them to their graph)
             alphaCutoffProp = FindProperty("_Cutoff", properties, false);
@@ -588,6 +595,8 @@ namespace UnityEditor
 
             DrawFloatToggleProperty(Styles.castShadowText, castShadowsProp);
             DrawFloatToggleProperty(Styles.receiveShadowText, receiveShadowsProp);
+
+            materialEditor.ShaderProperty(ditherFadeProp, Styles.ditherFade);
         }
 
         /// <summary>

@@ -48,6 +48,9 @@ Shader "Universal Render Pipeline/Simple Lit"
         [HideInInspector][NoScaleOffset]unity_Lightmaps("unity_Lightmaps", 2DArray) = "" {}
         [HideInInspector][NoScaleOffset]unity_LightmapsInd("unity_LightmapsInd", 2DArray) = "" {}
         [HideInInspector][NoScaleOffset]unity_ShadowMasks("unity_ShadowMasks", 2DArray) = "" {}
+
+        // Custom
+        _DitherFade("Dither Fade", Range(0.0, 1.0)) = 0.0
     }
 
     SubShader
