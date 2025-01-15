@@ -236,7 +236,7 @@ void LitPassFragment(
     color.a = OutputAlpha(color.a, IsSurfaceTypeTransparent(_Surface));
 
     float dither = SampleDither(_DitherFade, input.positionCS.xyz);
-    if(dither < 0.5)
+    if(dither < .5)
         discard;
 
     outColor = color;

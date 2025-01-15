@@ -49,7 +49,7 @@ half DepthOnlyFragment(Varyings input) : SV_TARGET
     #endif
 
     float dither = SampleDither(_DitherFade, input.positionCS.xyz);
-    if(dither < 0.5)
+    if(dither < .5)
         discard;
 
     return input.positionCS.z;
