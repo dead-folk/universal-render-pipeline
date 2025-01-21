@@ -59,29 +59,23 @@ half3 SampleEmission(float2 uv, half3 emissionColor, TEXTURE2D_PARAM(emissionMap
 #endif
 }
 
-half SampleDither(half dither, float3 positionCS)
+// https://www.shadertoy.com/view/7sfXDn
+float Bayer2(float2 coord)
 {
-    half opacity = 1.0 - dither;
+    coord = floor(coord);
+    return frac(coord.x / 2. + coord.y * coord.y * .75);
+}
 
-#if UNITY_UV_STARTS_AT_TOP
-    float2 pixelPosition = float2(positionCS.x, (_ProjectionParams.x < 0) ? (_ScreenParams.y - positionCS.y) : positionCS.y);
-#else
-    float2 pixelPosition = float2(positionCS.x, (_ProjectionParams.x > 0) ? (_ScreenParams.y - positionCS.y) : positionCS.y);
-#endif
+#define BAYER4(coord) (Bayer2(.5f * coord) * .25f + Bayer2(coord))
+#define BAYER8(coord) (BAYER4(.5f * coord) * .25f + Bayer2(coord))
+#define BAYER16(coord) (BAYER8(.5f * coord) * .25f + Bayer2(coord))
+#define BAYER32(coord) (BAYER16(.5f * coord) * .25f + Bayer2(coord))
+#define BAYER64(coord) (BAYER32(.5f * coord) * .25f + Bayer2(coord))
 
-    float4 NDCPosition = float4(pixelPosition.xy / _ScreenParams.xy, 0, 0);
-    NDCPosition.y = 1.0f - NDCPosition.y;
-
-    float2 uv = NDCPosition.xy * _ScreenParams.xy;
-    float DITHER_THRESHOLDS[16] =
-    {
-        1.0 / 17.0,  9.0 / 17.0,  3.0 / 17.0, 11.0 / 17.0,
-        13.0 / 17.0,  5.0 / 17.0, 15.0 / 17.0,  7.0 / 17.0,
-        4.0 / 17.0, 12.0 / 17.0,  2.0 / 17.0, 10.0 / 17.0,
-        16.0 / 17.0,  8.0 / 17.0, 14.0 / 17.0,  6.0 / 17.0
-    };
-    uint index = (uint(uv.x) % 4) * 4 + uint(uv.y) % 4;
-    return opacity * 2 - DITHER_THRESHOLDS[index];
+half SampleDither(half d, float3 positionCS)
+{
+    half opacity = 1.0 - d;
+    return opacity - BAYER16(positionCS);
 }
 
 #endif
